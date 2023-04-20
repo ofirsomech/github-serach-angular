@@ -1,0 +1,22 @@
+<div *ngIf="searchResults?.length; else noResults">
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="col" *ngFor="let result of searchResults">
+      <div class="card h-100">
+        <img src="{{ result.owner.avatar_url }}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title"><a href="{{ result.html_url }}" target="_blank">{{ result.name }}</a></h5>
+          <p class="card-text">{{ result.description }}</p>
+        </div>
+        <div class="card-footer">
+          <button class="btn" [ngClass]="result.bookmarked ? 'btn-danger' : 'btn-primary'" (click)="bookmark(result)">
+            {{ result.bookmarked ? 'Bookmarked' : 'Bookmark' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #noResults>
+  <p>No results found.</p>
+</ng-template>

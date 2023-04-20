@@ -1,0 +1,22 @@
+<div class="container-fluid">
+  <h1 class="text-center mb-4">Bookmarks</h1>
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="col" *ngFor="let bookmark of bookmarks">
+      <div class="card h-100">
+        <img src="{{ bookmark.owner.avatar_url }}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title"><a href="{{ bookmark.html_url }}" target="_blank">{{ bookmark.name }}</a></h5>
+          <p class="card-text">{{ bookmark.description }}</p>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-danger" (click)="removeBookmark(bookmark)">
+            remove
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="bookmarks.length === 0" class="text-center mt-4">
+    No bookmarks found.
+  </div>
+</div>

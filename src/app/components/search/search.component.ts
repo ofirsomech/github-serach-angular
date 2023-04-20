@@ -1,26 +1,43 @@
-import { Component } from '@angular/core';
-import { from } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BookmarkService } from '../../services/bookmark-service.service';
-import { environment } from '../../../environments/environment';
+import { Repository } from '../../models/repository';
+import { SearchService } from '../../services/search-service.service';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css'],
 })
-export class SearchComponent {
-  searchQuery: string = '';
-  searchResults: any[] = [];
-  loading: boolean = false;
+export class SearchComponent implements OnInit {
+  searchQuery = '';
+  searchResults: Repository[] = [];
+  bookmarks: any[] = [];
+  loading = false;
 
   constructor(
-    private http: HttpClient,
+    private searchService: SearchService,
     private snackBar: MatSnackBar,
     private bookmarkService: BookmarkService
   ) {}
+
+  ngOnInit(): void {
+    this.bookmarkService.getAll().subscribe((data) => {
+      this.bookmarks = data;
+    });
+
+    if (this.searchService.lastSearchResults.length > 0) {
+      this.searchResults = this.searchService.lastSearchResults.map(
+        (item: Repository) => {
+          const bookmark = this.bookmarks.find((b) => b.id === item.id);
+          if (bookmark) {
+            item.bookmarked = true;
+          }
+          return item;
+        }
+      );
+    }
+  }
 
   async search() {
     if (!this.searchQuery) return;
@@ -29,12 +46,21 @@ export class SearchComponent {
     this.searchResults = [];
 
     try {
-      const response = await this.http
-        .get<any>(`${environment.apiUrl}/search?query=${this.searchQuery}`)
-        .pipe(map((res) => res.items))
+      const response = await this.searchService
+        .search(this.searchQuery)
         .toPromise();
 
-      this.searchResults = response;
+      if (response) {
+        this.searchResults = response.map((item: Repository) => {
+          const bookmark = this.bookmarks.find((b) => b.id === item.id);
+          if (bookmark) {
+            item.bookmarked = true;
+          }
+          return item;
+        });
+
+        this.searchService.lastSearchResults = this.searchResults;
+      }
     } catch (error) {
       this.snackBar.open('Failed to search for repositories.', 'Dismiss', {
         duration: 3000,
@@ -46,7 +72,8 @@ export class SearchComponent {
 
   async bookmark(repository: any) {
     try {
-      await this.bookmarkService.createBookmark(repository);
+      await this.bookmarkService.create(repository);
+      repository.bookmarked = true;
       this.snackBar.open('Bookmark created.', 'Dismiss', { duration: 3000 });
     } catch (error) {
       this.snackBar.open('Failed to create bookmark.', 'Dismiss', {
