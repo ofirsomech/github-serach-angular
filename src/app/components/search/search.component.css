@@ -1,5 +1,19 @@
-.search-row{
+.container {
+  position: relative;
+  top: 52px;
+}
+
+.search-row {
   position: sticky;
-  top: 0;
+  top: 52px;
+  width: 101%;
   z-index: 1;
 }
+loading-row{
+  top: 52px;
+}
+
+.white {
+  background-color: white;
+}
+

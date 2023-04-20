@@ -32,9 +32,7 @@ export class SearchComponent implements OnInit {
       this.searchResults = this.searchService.lastSearchResults.map(
         (item: Repository) => {
           const bookmark = this.bookmarks.find((b) => b.id === item.id);
-          if (bookmark) {
-            item.bookmarked = true;
-          }
+          item.bookmarked = !!bookmark;
           return item;
         }
       );
