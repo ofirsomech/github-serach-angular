@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
+
 // import * as jwt from 'jsonwebtoken';
 
 @Component({
@@ -10,17 +12,21 @@ export class LoginComponent {
   password: string = '';
   error: string = '';
 
-  constructor() {}
+  constructor(private authService: AuthService) {}
 
   login() {
-    if (this.username === 'root' && this.password === '123456') {
-      // const token = jwt.sign({ username: this.username }, 'your-secret-key', { expiresIn: '1h' });
-      const token = "123"
-      localStorage.setItem('token', token);
-      // redirect the user to the home page
-      console.log('Login successful');
+    if (this.username && this.password) {
+      this.authService.login(this.username, this.password).subscribe(
+        () => {
+          console.log('Login successful');
+          // TODO: redirect the user to the home page
+        },
+        (error) => {
+          this.error = error.error;
+        }
+      );
     } else {
-      this.error = 'Invalid username or password';
+      this.error = 'Username and password are required';
     }
   }
 }
