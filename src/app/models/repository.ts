@@ -64,7 +64,7 @@ export interface Repository {
   has_pages: boolean
   has_discussions: boolean
   forks_count: number
-  mirror_url: any
+  mirror_url: string
   archived: boolean
   disabled: boolean
   open_issues_count: number
@@ -107,6 +107,6 @@ export interface License {
   key: string
   name: string
   spdx_id: string
-  url: any
+  url: string
   node_id: string
 }

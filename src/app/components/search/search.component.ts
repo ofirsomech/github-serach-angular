@@ -12,20 +12,22 @@ import { SearchService } from '../../services/search-service.service';
 export class SearchComponent implements OnInit {
   searchQuery = '';
   searchResults: Repository[] = [];
-  bookmarks: any[] = [];
+  bookmarks: Repository[] = [];
   loading = false;
 
   constructor(
     private searchService: SearchService,
-    private snackBar: MatSnackBar,
-    private bookmarkService: BookmarkService
+    private bookmarkService: BookmarkService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
+    // Load the bookmarks from the database
     this.bookmarkService.getAll().subscribe((data) => {
       this.bookmarks = data;
     });
 
+    // If there are cached search results, use them to populate the search results and update the bookmark status
     if (this.searchService.lastSearchResults.length > 0) {
       this.searchResults = this.searchService.lastSearchResults.map(
         (item: Repository) => {
@@ -68,17 +70,5 @@ export class SearchComponent implements OnInit {
     }
 
     this.loading = false;
-  }
-
-  async bookmark(repository: any) {
-    try {
-      await this.bookmarkService.create(repository);
-      repository.bookmarked = true;
-      this.snackBar.open('Bookmark created.', 'Dismiss', { duration: 3000 });
-    } catch (error) {
-      this.snackBar.open('Failed to create bookmark.', 'Dismiss', {
-        duration: 3000,
-      });
-    }
   }
 }

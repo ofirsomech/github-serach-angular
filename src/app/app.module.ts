@@ -22,6 +22,7 @@ import { AuthGuard } from './Gourds/auth.guard';
 import { ReposListComponent } from './components/repos-list/repos-list.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { JwtInterceptor } from './interceptors/jwt.Interceptor';
+import { NotFoundComponent } from './shared/not-found/not-found.component';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -42,9 +43,9 @@ const routes: Routes = [
     LoginComponent,
     ReposListComponent,
     NavbarComponent,
+    NotFoundComponent,
   ],
   imports: [
-    RouterModule.forRoot(routes),
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,

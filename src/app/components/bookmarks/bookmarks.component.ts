@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BookmarkService } from '../../services/bookmark-service.service';
 import { Observable } from 'rxjs';
+import { Repository } from '../../models/repository';
 
 @Component({
   selector: 'app-bookmark',
@@ -8,18 +9,18 @@ import { Observable } from 'rxjs';
   styleUrls: ['./bookmarks.component.css'],
 })
 export class BookmarksComponent implements OnInit {
-  bookmarks: any[] = [];
+  bookmarks: Repository[] = [];
 
   constructor(private bookmarkService: BookmarkService) {}
 
   ngOnInit() {
     this.bookmarkService.getAll().subscribe((bookmarks) => {
       this.bookmarks = bookmarks;
-      console.log(bookmarks)
     });
   }
 
-  removeBookmark(bookmark: any) {
+  // Remove the specified bookmark using the bookmark service
+  removeBookmark(bookmark: Repository) {
     this.bookmarkService.delete(bookmark);
   }
 }

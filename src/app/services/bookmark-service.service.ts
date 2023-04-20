@@ -1,18 +1,21 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Repository } from '../models/repository';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BookmarkService {
   private readonly STORAGE_KEY = 'bookmarks';
-  private bookmarks: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  private bookmarks: BehaviorSubject<Repository[]> = new BehaviorSubject<
+    Repository[]
+  >([]);
 
   constructor() {
     const itemStorage = localStorage.getItem(this.STORAGE_KEY) ?? '';
     // Check if there are any bookmarks saved in local storage
 
-    const bookmarks = itemStorage ? JSON.parse(itemStorage) : [];
+    const bookmarks: Repository[] = itemStorage ? JSON.parse(itemStorage) : [];
     if (bookmarks) {
       this.bookmarks.next(bookmarks);
     }
@@ -24,7 +27,7 @@ export class BookmarkService {
   }
 
   // Adds a new bookmark to the bookmarks array
-  create(bookmark: any): void {
+  create(bookmark: Repository): void {
     const updatedBookmarks = [...this.bookmarks.value, bookmark];
     this.bookmarks.next(updatedBookmarks);
     // Save updated bookmarks to local storage
@@ -32,7 +35,7 @@ export class BookmarkService {
   }
 
   // Removes a bookmark from the bookmarks array
-  delete(bookmark: any): void {
+  delete(bookmark: Repository): void {
     const updatedBookmarks = this.bookmarks.value.filter(
       (b) => b.id !== bookmark.id
     );

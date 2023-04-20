@@ -13,12 +13,13 @@ export class ReposListComponent {
 
   constructor(private bookmarkService: BookmarkService) {}
 
-  bookmark(result: any) {
+  // Toggles the bookmark status of a repository and adds or removes it from the bookmark list
+  bookmark(result: Repository) {
     result.bookmarked = !result.bookmarked;
     if (result.bookmarked) {
       this.bookmarkService.create(result);
     } else {
-      this.bookmarkService.delete(result.id);
+      this.bookmarkService.delete(result);
     }
   }
 }
