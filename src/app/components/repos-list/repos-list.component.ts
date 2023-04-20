@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { BookmarkService } from '../../services/bookmark-service.service';
 import { Repository } from '../../models/repository';
+import { BookmarkService } from '../../services/bookmark.service';
 
 @Component({
   selector: 'app-repos-list',

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { BookmarkService } from '../../services/bookmark-service.service';
-import { Observable } from 'rxjs';
 import { Repository } from '../../models/repository';
+import { BookmarkService } from '../../services/bookmark.service';
 
 @Component({
   selector: 'app-bookmark',

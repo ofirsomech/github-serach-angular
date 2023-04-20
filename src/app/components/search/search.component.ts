@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { BookmarkService } from '../../services/bookmark-service.service';
 import { Repository } from '../../models/repository';
-import { SearchService } from '../../services/search-service.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SearchService } from '../../services/search.service';
+import { BookmarkService } from '../../services/bookmark.service';
 
 @Component({
   selector: 'app-search',
