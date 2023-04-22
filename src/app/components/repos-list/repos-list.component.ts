@@ -13,6 +13,10 @@ export class ReposListComponent {
 
   constructor(private bookmarkService: BookmarkService) {}
 
+  biggerString(str: string) {
+    return str?.length > 40;
+  }
+
   // Toggles the bookmark status of a repository and adds or removes it from the bookmark list
   bookmark(result: Repository) {
     result.bookmarked = !result.bookmarked;

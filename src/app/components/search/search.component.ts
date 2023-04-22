@@ -50,6 +50,7 @@ export class SearchComponent implements OnInit {
         .search(this.searchQuery)
         .toPromise();
 
+
       if (response) {
         this.searchResults = response.map((item: Repository) => {
           const bookmark = this.bookmarks.find((b) => b.id === item.id);

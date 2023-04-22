@@ -12,7 +12,7 @@ export class BookmarkService {
   >([]);
 
   constructor() {
-    const itemStorage = localStorage.getItem(this.STORAGE_KEY) ?? '';
+    const itemStorage = sessionStorage.getItem(this.STORAGE_KEY) ?? '';
     // Check if there are any bookmarks saved in local storage
 
     const bookmarks: Repository[] = itemStorage ? JSON.parse(itemStorage) : [];
@@ -31,16 +31,16 @@ export class BookmarkService {
     const updatedBookmarks = [...this.bookmarks.value, bookmark];
     this.bookmarks.next(updatedBookmarks);
     // Save updated bookmarks to local storage
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(updatedBookmarks));
+    sessionStorage.setItem(this.STORAGE_KEY, JSON.stringify(updatedBookmarks));
   }
 
   // Removes a bookmark from the bookmarks array
   delete(bookmark: Repository): void {
     const updatedBookmarks = this.bookmarks.value.filter(
-      (b) => b.id !== bookmark.id
+      (_bookmark) => _bookmark.id !== bookmark.id
     );
     this.bookmarks.next(updatedBookmarks);
     // Save updated bookmarks to local storage
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(updatedBookmarks));
+    sessionStorage.setItem(this.STORAGE_KEY, JSON.stringify(updatedBookmarks));
   }
 }

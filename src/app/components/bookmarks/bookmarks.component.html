@@ -1,16 +1,23 @@
 <div class="container-fluid">
   <h1 class="text-center mb-4">Bookmarks</h1>
   <div class="row row-cols-1 row-cols-md-3 g-4">
-    <div class="col" *ngFor="let bookmark of bookmarks">
+    <div class="col" *ngFor="let result of bookmarks">
       <div class="card h-100">
-        <img src="{{ bookmark.owner.avatar_url }}" class="card-img-top" alt="...">
+        <img src="{{ result.owner.avatar_url }}" class="card-img-top" alt="...">
         <div class="card-body">
-          <h5 class="card-title"><a href="{{ bookmark.html_url }}" target="_blank">{{ bookmark.name }}</a></h5>
-          <p class="card-text">{{ bookmark.description }}</p>
+          <h5 class="card-title"><a href="{{ result.html_url }}" target="_blank">{{ result.name }}</a></h5>
+          <span *ngIf="biggerString(result.description)">
+              <a href="javascript:void(0);"
+                 (click)="result.showFullDescription = !result.showFullDescription">{{ result.showFullDescription ? 'Read Less' : 'Read More' }}</a>
+              <span *ngIf="result.showFullDescription">{{result.description}}</span>
+            </span>
+          <p class="card-text">
+            {{ biggerString(result.description) ? (result?.description | slice:0:40) + '...' : result?.description }}
+          </p>
         </div>
         <div class="card-footer">
-          <button class="btn btn-danger" (click)="removeBookmark(bookmark)">
-            remove
+          <button class="btn btn-danger" (click)="removeBookmark(result)">
+            Bookmarked
           </button>
         </div>
       </div>

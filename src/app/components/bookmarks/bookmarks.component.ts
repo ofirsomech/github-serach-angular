@@ -18,6 +18,11 @@ export class BookmarksComponent implements OnInit {
     });
   }
 
+  biggerString(str: string) {
+    return str?.length > 40;
+  }
+
+
   // Remove the specified bookmark using the bookmark service
   removeBookmark(bookmark: Repository) {
     this.bookmarkService.delete(bookmark);
